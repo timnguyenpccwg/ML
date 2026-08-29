@@ -17,19 +17,19 @@ class CarFeatures(BaseModel):
 @app.post("/predict")
 def predict_co2(car: CarFeatures):
     # Chuyển đổi JSON input thành DataFrame
-    xe_moi_df = pd.DataFrame([car.model_dump()])
+    new_car_df = pd.DataFrame([car.model_dump()])
     
     # Trích xuất và chuẩn hóa
     features = ['ENGINESIZE', 'FUELCONSUMPTION_COMB_MPG']
-    xe_moi_array = xe_moi_df[features].to_numpy()
-    xe_moi_std = scaler.transform(xe_moi_array)
+    new_car_array = new_car_df[features].to_numpy()
+    new_car_std = scaler.transform(new_car_array)
     
     # Dự đoán
-    co2_du_doan = model.predict(xe_moi_std)
+    co2_prediction = model.predict(new_car_std)
     
     # Trả về kết quả JSON
     return {
-        "engine_size": car.ENGINESIZE,
-        "mpg": car.FUELCONSUMPTION_COMB_MPG,
-        "predicted_co2_g_km": round(co2_du_doan.item(), 2)
+        "ENGINESIZE": car.ENGINESIZE,
+        "FUELCONSUMPTION_COMB_MPG": car.FUELCONSUMPTION_COMB_MPG,
+        "predicted_co2_g_km": round(co2_prediction.item(), 2)
     }

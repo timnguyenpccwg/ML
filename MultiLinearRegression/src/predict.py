@@ -10,11 +10,11 @@ thong_so_xe = {
     'ENGINESIZE': [2.4],
     'FUELCONSUMPTION_COMB_MPG': [25]
 }
-xe_moi_df = pd.DataFrame(thong_so_xe)
+new_car_df = pd.DataFrame(thong_so_xe)
 
 # Đảm bảo dữ liệu luôn được nạp đúng thứ tự thiết kế, bất chấp vị trí khai báo ở trên
 features = ['ENGINESIZE', 'FUELCONSUMPTION_COMB_MPG']
-xe_moi_array = xe_moi_df[features].to_numpy()
+xe_moi_array = new_car_df[features].to_numpy()
 
 # 3. Chuẩn hóa dữ liệu thô và dự đoán
 xe_moi_std = scaler.transform(xe_moi_array)
