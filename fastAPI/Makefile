@@ -13,6 +13,6 @@ clean:
 	podman-compose down
 	podman rmi ml-simple-regression:latest
 
-# Chạy mô hình dự đoán độc lập
-predict:
-	podman-compose run --rm ml-regression python predict.py
+# Khởi chạy server API (chạy ngầm và mở cổng 8000)
+api:
+	podman-compose up -d ml-api

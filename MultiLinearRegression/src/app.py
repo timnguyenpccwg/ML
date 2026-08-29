@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+import joblib
+import os
 from sklearn.model_selection import train_test_split
 from sklearn import linear_model
 from sklearn import preprocessing
@@ -21,8 +23,11 @@ df = df.drop(['CYLINDERS', 'FUELCONSUMPTION_CITY', 'FUELCONSUMPTION_HWY', 'FUELC
 
 # 3. Trích xuất đặc trưng (X) và biến mục tiêu (y)
 # X gồm 2 biến: ENGINESIZE và FUELCONSUMPTION_COMB_MPG
-X = df.iloc[:, [0,1]].to_numpy()
-y = df.iloc[:, [2]].to_numpy()
+features = ['ENGINESIZE', 'FUELCONSUMPTION_COMB_MPG']
+target = ['CO2EMISSIONS']
+
+X = df[features].to_numpy()
+y = df[target].to_numpy()
 
 # 4. Chuẩn hóa dữ liệu (Standardization)
 # Đưa các đặc trưng về cùng thang đo (trung bình = 0, độ lệch chuẩn = 1) để mô hình không bị thiên vị
@@ -57,3 +62,27 @@ print("\n--- Model Evaluation ---")
 print("Mean absolute error: %.2f" % mean_absolute_error(y_test, y_pred))
 print("Mean squared error: %.2f" % mean_squared_error(y_test, y_pred))
 print("R2-score: %.2f" % r2_score(y_test, y_pred))
+
+# Trích xuất các giá trị số học từ mảng
+# 1. Lấy giá trị toán học thuần túy, loại bỏ lớp mảng (array) bao bọc bên ngoài
+c_intercept = intercept_original.item()
+
+# 2. Làm phẳng mảng hệ số 2D thành 1D, sau đó ghép cặp với danh sách tên cột
+features = ['ENGINESIZE', 'FUELCONSUMPTION_COMB_MPG']
+coef_dict = dict(zip(features, coef_original.flatten()))
+
+# 3. Trích xuất trực tiếp bằng tên (Label-based extraction)
+c_engine = coef_dict['ENGINESIZE']
+c_mpg = coef_dict['FUELCONSUMPTION_COMB_MPG']
+
+# In ra phương trình bằng f-string (làm tròn 2 chữ số thập phân)
+print(f"\n[Phương trình Hồi quy]:")
+print(f"CO2 = {c_intercept:.2f} + ({c_engine:.2f} * ENGINESIZE) + ({c_mpg:.2f} * FUELCONSUMPTION_COMB_MPG)")
+
+# Bảo vệ hệ thống: Tự động tạo thư mục nếu chưa tồn tại
+os.makedirs('data', exist_ok=True)
+
+# Ghi file thẳng vào thư mục data đã được đồng bộ
+joblib.dump(std_scaler, 'data/scaler.joblib')
+joblib.dump(regressor, 'data/model.joblib')
+print("\nĐã lưu thành công model.joblib và scaler.joblib!")

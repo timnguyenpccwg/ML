@@ -6,3 +6,5 @@ services:
     container_name: ml_regression_runner
     volumes:
       - ./app.py:/app/app.py
+      - ./predict.py:/app/predict.py
+      - ./data:/app/data
