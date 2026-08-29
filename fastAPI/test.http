@@ -17,3 +17,5 @@ Content-Type: application/json
   "ENGINESIZE": 5.3,
   "FUELCONSUMPTION_COMB_MPG": 15.0
 }
+
+#curl -X POST http://localhost:8000/predict -H "Content-Type: application/json" -d '{"ENGINESIZE": 2.4, "FUELCONSUMPTION_COMB_MPG": 25.0}'

@@ -1,0 +1,13 @@
+.PHONY: build run clean
+
+# Build image
+build:
+	docker-compose build
+
+# Khởi chạy container (tự động build nếu chưa có image)
+run:
+	docker-compose up
+
+# Dọn dẹp container và xóa image
+clean:
+	docker-compose down --rmi all

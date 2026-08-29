@@ -3,6 +3,7 @@ services:
   ml-regression:
     build: .
     image: ml-simple-regression:latest
-    container_name: ml_linear_regression_runner
+    container_name: ml_poly_regression_runner
     volumes:
       - ./app.py:/app/app.py
+      - ./data:/app/data

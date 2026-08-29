@@ -2,7 +2,7 @@
 
 # Build image bằng podman-compose
 build:
-	podman-compose build
+	podman-compose build --no-cache
 
 # Khởi chạy container (tự động build nếu image chưa tồn tại)
 run:
