@@ -19,3 +19,11 @@ Content-Type: application/json
 }
 
 #curl -X POST http://localhost:8000/co2prediction -H "Content-Type: application/json" -d '{"ENGINESIZE": 2.4, "FUELCONSUMPTION_COMB_MPG": 25.0}'
+
+curl -X POST "http://127.0.0.1:8000/gd-co2-prediction" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "ENGINESIZE": 2.4,
+           "CYLINDERS": 4,
+           "FUELCONSUMPTION_COMB": 9.2
+         }'
