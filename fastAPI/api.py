@@ -1,11 +1,14 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+from routers import churn
 import joblib
 import pandas as pd
 import numpy as np
 import os
 
 app = FastAPI(title="Multi-Model Prediction Platform")
+
+app.include_router(churn.router)
 
 # ==========================================
 # 1. KHAI BÁO MODEL 1: POLYNOMIAL SCIKIT-LEARN
